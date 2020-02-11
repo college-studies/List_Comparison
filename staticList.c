@@ -49,7 +49,7 @@ int insertBeginning(list *ls, int value)
     return 1;
 }
 
-int insertPosition(list *ls,int value, int position)
+int insertPosition(list *ls,int value, int position) //need to fix
 {
     if(emptyList(ls))
     {
@@ -87,7 +87,6 @@ int insertEnd(list *ls, int value)
             return 0;
         else
         {
-            printf("ok");
             ls->array[ls->tCount] = value;
         }
         ls->tCount++;
