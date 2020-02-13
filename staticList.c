@@ -51,27 +51,26 @@ int insertBeginning(list *ls, int value)
 
 int insertPosition(list *ls,int value, int position) //need to fix
 {
-    if(emptyList(ls))
+    if(emptyList(ls) && position == 0)
     {
-        insertBeginning(ls,value);
+        insertBeginning(ls,value);      
         return 1;
     }
-    else
+    else if ((ls->tCount >= ls->size) || (position > ls->tCount))
+        return 0;   
+    else if((position <= ls->tCount)  && (ls->tCount!=0))
     {
-        if ( (ls->tCount >= ls->size) || (position > ls->tCount) )
-            return 0;
-        else
+        int i;
+        for (i = ls->tCount; i >= position ; i--)
         {
-            int i;
-            for (i = ls->tCount; i >= position ; i--)
-                ls->array[i] = ls->array[i-1];
-            
-            ls->array[position] = value;
+            ls->array[i] = ls->array[i-1];
+        }            
+        ls->array[position] = value;
+        ls->tCount++;
 
-            ls->tCount++;
-            return 1;
-        }
+        return 1;
     }
+    return 0;    
 }
 
 int insertEnd(list *ls, int value)

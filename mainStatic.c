@@ -1,42 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/time.h>
 
 #include "staticList.c"
+#include "singlyLinkedList.c"
 
-int insertValues(list *ls);
+#define max 3
+#define listSize 10000
+
+double insertValues(list *ls);
 
 int main()
 {
     int i;
     list ls;
     ls.tCount = 0, ls.bCount = 0, ls.rCount = 0, ls.eCount = 0;
-    ls.size = 50; //to set the list size
-    printf("teste");
+    ls.size = listSize; //to set the list size
     runList(&ls);
+    double timer;
 
-    insertValues(&ls);
+    timer = insertValues(&ls);
+    
     printf("\n%d\n",ls.tCount);
-    for(i = 0; i <= ls.tCount - 1; i++)
-    {
-        printf("\n[%d]%d", i, ls.array[i]);
-    }
 
     printf("\nBeginning = %d\nRandom Position = %d\nEnd = %d",ls.bCount,ls.rCount,ls.eCount);
-
+    printf("\nCPU use: %lfms",timer);
     return 1;
 }
 
-int insertValues(list *ls)
+double insertValues(list *ls)
 {
-    int count=0, value, flag, insert, max = 3, position;
-    srand(time(NULL));
-
-    while (count != ls->size)
+    unsigned long timer;
+    int count=0, value, flag, position;
+    int insert;
+    srand((unsigned) time(NULL));
+    time_t start, end;
+    start = clock();
+    do
     {
+
         flag = 0;
-        insert = rand() % max;
-        value = rand() % ls->size+1;
+        insert = (rand() % max);
+        value = rand() % (ls->size+1);
 
         switch (insert)
         {
@@ -48,8 +54,8 @@ int insertValues(list *ls)
             }
             break;
         case 1://incomplete
-            position = rand() % (ls->size-1);
-            if (insertPosition(ls, value,position));
+            position = rand() % (ls->size+1);
+            if (insertPosition(ls, value,position))
             {
                 flag = 1;
                 ls->rCount++;
@@ -60,12 +66,19 @@ int insertValues(list *ls)
             {
                 flag = 1;
                 ls->eCount++;
+
             }
+            break;
+        default: 
             break;
         }
 
         if (flag)
+        {
             count++;
-    }
+        }
+    } while (count != ls->size);
+    end = clock();
+    return (end-start);
 }
 
