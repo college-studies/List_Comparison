@@ -21,7 +21,7 @@ int emptylist(sList **sl)
 sList *listAllocation(int value)
 {
     sList *alloc;
-    alloc = (sList *) malloc (sizeof(sList));
+    alloc = (sList *) malloc (sizeof(sList)*1);
     if (alloc == NULL)
         printf("Error");
     else
@@ -32,9 +32,10 @@ sList *listAllocation(int value)
     return (alloc);
 }
 
-int insertBeginning(sList **sl, int value) //counter missing
+int insertBeginning(sList **sl, int value, int tCount) 
 {
     sList *aux, *new;
+
 
     new = listAllocation(value);
 
@@ -50,11 +51,13 @@ int insertBeginning(sList **sl, int value) //counter missing
     return 1;  
 }
 
-int insertLast(sList **sl, int value) //counter missing
+int insertEnd(sList **sl, int value, int tCount, int listSize) 
 {
+    if(tCount >= listSize)
+        return 0;
     sList *aux, *new;
     new = listAllocation(value);
-
+    
     if (emptylist(sl))
         (*sl) = new;
     else
@@ -64,25 +67,23 @@ int insertLast(sList **sl, int value) //counter missing
             aux = aux->next;
         aux->next = new;
     }
-
+    
     return 1;   
-
 }
 
 
-int insertPosition(sList **sl, int position, int value) //counter missing
-{
-    sList *aux1, *aux2, *new;
-    
-    if (position > 10)
+int insertPosition(sList **sl, int position, int value, int tCount, int listSize) 
+{     
+    if ((position > tCount) || (tCount >= listSize))
         return 0;
     else
     {
+        sList *aux1, *aux2, *new;
         new =listAllocation(value);
 
-        if(emptylist(sl))
+        if(emptylist(sl) && (position == 0))
             (*sl) = new;
-        else
+        else if ((position <= tCount) && (tCount!=0))
         {   
             int i = 0;
             aux1 = (*sl);
@@ -96,9 +97,11 @@ int insertPosition(sList **sl, int position, int value) //counter missing
             aux2->next = new;
             new->next = aux1;
         }
-        //counter here
+        
         return 1;
     }
+    return 0;
 }
+
 
 #endif
