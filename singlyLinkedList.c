@@ -1,5 +1,5 @@
-#ifdef sinLinkList_c
-#define sinLinkList_c
+#ifdef singlyLinkedList_c
+#define singlyLinkedList_c
 
 #include <stdio.h>
 #include <stdlib.h>
