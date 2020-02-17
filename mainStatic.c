@@ -9,7 +9,7 @@
 #include "staticList.c"
 
 #define max 3
-#define listSize 1000 //Alter here the size (1000 and 10000)
+#define listSize 10000 //Alter here the size (1000 and 10000)
 
 int insertValues(list *ls);
 
